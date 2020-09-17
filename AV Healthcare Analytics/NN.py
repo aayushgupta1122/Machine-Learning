@@ -72,6 +72,3 @@ s = np.column_stack((case_id,stay))
 s = pd.DataFrame(s)
 s.columns = ['case_id', 'Stay']
 s.to_csv("Submission.csv", index = False, index_label = None)    
-
-
-
