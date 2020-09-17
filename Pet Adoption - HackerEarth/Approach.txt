@@ -1,0 +1,44 @@
+This project was created by Aayush Gupta in Python and compiled on Spyder IDE mainly using Sklearn package.
+I began with including the following features:
+1)Condition 
+2)Length 
+3)Height 
+4)X1 
+5)X2 
+
+After this I compared 4 models for both the dependant variables in a file named models.py
+These models were: 
+1)Logistic Regression
+2)K Nearest Neighbours
+3)Naive Bayes
+4)Random Forest
+
+I found out that Logistic Regression gave consistently higher accuracy than other techniques for Pet_Category while 
+Random Forest, Naive Bayes and KNN gave roughly the same accuracy for Breed_Category.
+I decided to take up Logistic Regression for pet_category and Random Forest for breed_category.
+
+I needed to remove inconsistencies like NaN and therefore used the SimpleImputer class from the impute package in sklearn module.
+I found the 'mean' strategy to give the best accuracy among other options. Other options were 'constant', 'most_frequent'and 'median'.
+
+The accuracies provided by both quite below my expectations. So I started including and excluding the features. 
+I used datetime library of python to convert the strings given in issue_date and listing_date to TimeStamp format.
+I calculated the difference between these columns and saved the result in days within a column along with the rest of the features.
+This gave quite a boost to my accuracy.
+
+Next, I encoded the color_type using the LabelEncoder class from the preprocessing package of sklearn. There were 50+ unique 
+values of color_type. I used ColumnTransformer to oneHotEncode this column.
+
+After all this, I got an accuracy of only 86.6%
+
+So after this I used Stacking technique.
+For my base level estimators, I used:
+1)Logistic Regression
+2)Random Forest
+3)Gradient Boosting Machine
+
+And my Level-1 estimator was XGBoost.
+
+After stacking these models I applied GridSearch Tuning to all of them individually.
+This gave me a overall accuracy of 90.6%
+
+
