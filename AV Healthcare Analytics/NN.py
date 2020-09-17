@@ -10,8 +10,6 @@ import pandas as pd
 from keras.utils import np_utils
 
 df = pd.read_csv("train.csv")
-#info = pd.read_csv("train_data_dict.csv")
-#np.shape(df)
 sub = pd.read_csv("test.csv")
 
 from sklearn.impute import SimpleImputer
@@ -39,17 +37,10 @@ ctX = ColumnTransformer([('dfX', OneHotEncoder(), [1,3,5,6,7,11,12,14])], remain
 X = ctX.fit_transform(X)
 Test = ctX.transform(Test)
 
-#cty = ColumnTransformer([('dfy', OneHotEncoder(), [0])], remainder = 'passthrough')
-#y = cty.fit_transform(y)
-#y = y.toarray()
-
 from sklearn.preprocessing import StandardScaler
 sc = StandardScaler()
 X[:, [47, 50]] = sc.fit_transform(X[:, [47, 50]])
 Test[:, [47, 50]] = sc.transform(Test[:, [47, 50]])
-
-#from sklearn.model_selection import train_test_split
-#X_train, X_val, y_train, y_val = train_test_split(X, y, test_size = 0.05, random_state = 1)
 
 import tensorflow as tf
 from tensorflow import keras
@@ -72,15 +63,15 @@ model.add(Dense(units=11, activation='softmax', kernel_initializer = 'random_nor
 model.compile(loss='categorical_crossentropy', optimizer='Adagrad', metrics=['accuracy'])
 
 model.fit(X, y, epochs=30, validation_split = 0.05, batch_size=256)
-#yhat = model.predict_classes(Test)
-#
-#yhat = np.argmax(yhat, axis = 1)
-#stay = le_y.inverse_transform(yhat)
-#
-#s = np.column_stack((case_id,stay))
-#s = pd.DataFrame(s)
-#s.columns = ['case_id', 'Stay']
-#s.to_csv("Submission.csv", index = False, index_label = None)    
+yhat = model.predict_classes(Test)
+
+yhat = np.argmax(yhat, axis = 1)
+stay = le_y.inverse_transform(yhat)
+
+s = np.column_stack((case_id,stay))
+s = pd.DataFrame(s)
+s.columns = ['case_id', 'Stay']
+s.to_csv("Submission.csv", index = False, index_label = None)    
 
 
 
